@@ -11,8 +11,6 @@ class Profile(models.Model):
     image = models.ImageField(upload_to='users/images/', null=True, blank=True)
 
 
-def get_absolute_url(self):
-    return reverse_lazy('users:users-detail', kwargs={"pk": self.id})
-
-
-User.add_to_class("get_absolute_url", get_absolute_url)
+class ProfileType(models.Model):
+    profile_type = models.CharField(max_length=255)
+    icon = models.ImageField(upload_to='profiles/types/icons/')
