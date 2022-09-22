@@ -18,3 +18,5 @@ djoser
 djangorestframework-simplejwt==4.3.0
 social-auth-app-django==4.0.0
 django-cors-headers==3.13.0
+drf-nested-routers==0.93.4
+selenium

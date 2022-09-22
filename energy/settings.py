@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'eh5l*ya66!*#8a)@pfs+1u&a#v(r_&t(p#n$5t+^3jjxf7m2v)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 # my apps
     'users.apps.UsersConfig',
     'utils.apps.UtilsConfig',
+    'energy_saving.apps.EnergySavingConfig',
 ]
 
 MIDDLEWARE = [
