@@ -102,7 +102,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='device',
             name='energy_class',
-            field=models.IntegerField(default=''),
+            field=models.CharField(max_length=255, default=''),
             preserve_default=False,
         ),
         migrations.AddField(
