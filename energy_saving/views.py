@@ -30,7 +30,7 @@ class LocalisationViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if not self.request.user.is_staff:
             private_localisations = self.queryset.filter(
-                profiles=self.request.user.profile
+                profile=self.request.user.profile
             )
             organisation_localisations = self.queryset.filter(
                 ogranisation__profile=self.request.user.profile
