@@ -36,13 +36,9 @@ class LocalisationViewSet(viewsets.ModelViewSet):
             organisation_localisations = self.queryset.filter(
                 organisation__profiles=self.request.user.profile
             )
-            self.queryset = list(chain(private_localisations, organisation_localisations))
+            self.queryset = private_localisations + organisation_localisations
         return super().get_queryset()
 
-    def get_object(self):
-        print(super().get_object())
-
-        return super().get_object()
 
     @action(detail=True, methods=['get'], permission_classes=(IsAuthenticated,))
     def consumption(self, request, *args, **kwargs):
@@ -74,7 +70,7 @@ class RoomViewSet(viewsets.ModelViewSet):
             organisation_localisations = self.queryset.filter(
                 localisation__organisation__profiles=self.request.user.profile
             )
-            self.queryset = list(chain(private_localisations, organisation_localisations))
+            self.queryset = private_localisations + organisation_localisations
         return super().get_queryset()
 
     @action(detail=True, methods=['get'], permission_classes=(IsAuthenticated,))
@@ -119,7 +115,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             organisation_localisations = self.queryset.filter(
                 devices__localisation__localisation__organisation__profiles=self.request.user.profile
             )
-            self.queryset = list(chain(private_localisations, organisation_localisations))
+            self.queryset = private_localisations + organisation_localisations
         return super().get_queryset()
 
 
@@ -144,7 +140,7 @@ class DeviceViewSet(viewsets.ModelViewSet):
                 localisation__localisation__organisation__profiles=self.request.user.profile
             )
 
-            self.queryset = list(chain(private_localisations, organisation_localisations))
+            self.queryset = private_localisations + organisation_localisations
         return super().get_queryset()
 
     @action(detail=True, methods=['get'], permission_classes=(IsAuthenticated,))
@@ -183,10 +179,6 @@ class DayViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'date'
     filter_backends = ()
-
-    # def perform_create(self, serializer):
-    #     serializer.validate_data['date']
-    #     serializer.save()
 
     def get_queryset(self):
         self.queryset = self.queryset.filter(month__device=self.kwargs['device_pk'])
