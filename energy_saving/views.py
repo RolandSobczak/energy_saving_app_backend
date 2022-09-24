@@ -112,7 +112,7 @@ class GroupViewSet(viewsets.ModelViewSet):
                 devices__localisation__localisation__profile=self.request.user.profile
             )
             organisation_localisations = self.queryset.filter(
-                devices__localisation__organisation__profiles=self.request.user.profile
+                devices__localisation__localisation__organisation__profiles=self.request.user.profile
             )
             self.queryset = list(chain(private_localisations, organisation_localisations))
         return super().get_queryset()
@@ -136,7 +136,7 @@ class DeviceViewSet(viewsets.ModelViewSet):
                 localisation__localisation__profile=self.request.user.profile
             )
             organisation_localisations = self.queryset.filter(
-                localisation__organisation__profiles=self.request.user.profile
+                localisation__localisation__organisation__profiles=self.request.user.profile
             )
 
             self.queryset = list(chain(private_localisations, organisation_localisations))
