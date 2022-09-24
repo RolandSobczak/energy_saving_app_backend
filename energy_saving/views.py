@@ -33,7 +33,7 @@ class LocalisationViewSet(viewsets.ModelViewSet):
                 profile=self.request.user.profile
             )
             organisation_localisations = self.queryset.filter(
-                ogranisation__profiles=self.request.user.profile
+                ogranisation__profile=self.request.user.profile
             )
             self.queryset = private_localisations + organisation_localisations
         return super().get_queryset()
