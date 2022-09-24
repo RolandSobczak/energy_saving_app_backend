@@ -26,7 +26,7 @@ class LocalisationIcon(SlugMixin):
 class Localisation(Timestamped, SlugMixin):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE,
                                 related_name='localisations', null=True, blank=True)
-    organisation = models.ForeignKey(Profile, on_delete=models.CASCADE,
+    organisation = models.ForeignKey(Organisations, on_delete=models.CASCADE,
                                      related_name='organisation_localisations', null=True, blank=True)
     name = models.CharField(max_length=255)
     description = utils_fields.HTMLField(null=True, blank=True)
