@@ -1,6 +1,7 @@
 import datetime
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
+from rest_framework import views
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -183,3 +184,15 @@ class DayViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         self.queryset = self.queryset.filter(month__device=self.kwargs['device_pk'])
         return super().get_queryset()
+
+
+class SpecsFetchView(views.APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, url: str):
+        return Response({
+            "device_type": models.DeviceType.objects.get(name='fridge').pk,
+            "consumption": 29,
+            "energy_class": 'E',
+            "device_name": 'Samsung RB34T652EBN',
+        }, status=HTTP_200_OK)

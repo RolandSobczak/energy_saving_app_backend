@@ -21,4 +21,5 @@ app_name = 'posts'
 urlpatterns = [
     path('', include(router.urls)),
     path('', include(month_router.urls)),
+    path('specs/<str:url>/', views.SpecsFetchView.as_view()),
 ]
