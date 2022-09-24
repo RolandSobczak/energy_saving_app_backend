@@ -36,7 +36,7 @@ class LocalisationViewSet(viewsets.ModelViewSet):
             organisation_localisations = self.queryset.filter(
                 organisation__profiles=self.request.user.profile
             )
-            self.queryset = private_localisations + organisation_localisations
+            self.queryset = private_localisations | organisation_localisations
         return super().get_queryset()
 
 
@@ -70,7 +70,7 @@ class RoomViewSet(viewsets.ModelViewSet):
             organisation_localisations = self.queryset.filter(
                 localisation__organisation__profiles=self.request.user.profile
             )
-            self.queryset = private_localisations + organisation_localisations
+            self.queryset = private_localisations | organisation_localisations
         return super().get_queryset()
 
     @action(detail=True, methods=['get'], permission_classes=(IsAuthenticated,))
@@ -115,7 +115,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             organisation_localisations = self.queryset.filter(
                 devices__localisation__localisation__organisation__profiles=self.request.user.profile
             )
-            self.queryset = private_localisations + organisation_localisations
+            self.queryset = private_localisations | organisation_localisations
         return super().get_queryset()
 
 
@@ -140,7 +140,7 @@ class DeviceViewSet(viewsets.ModelViewSet):
                 localisation__localisation__organisation__profiles=self.request.user.profile
             )
 
-            self.queryset = private_localisations + organisation_localisations
+            self.queryset = private_localisations | organisation_localisations
         return super().get_queryset()
 
     @action(detail=True, methods=['get'], permission_classes=(IsAuthenticated,))
