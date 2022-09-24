@@ -11,7 +11,7 @@ class OrganisationsSerializer(serializers.ModelSerializer):
 class LocalisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Localisation
-        fields = ('pk', 'profile', 'organisations', 'name', 'description', 'image',)
+        fields = ('pk', 'profile', 'organisation', 'name', 'description', 'image',)
 
 
 class RoomSerializer(serializers.ModelSerializer):
