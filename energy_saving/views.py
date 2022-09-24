@@ -39,6 +39,13 @@ class LocalisationViewSet(viewsets.ModelViewSet):
             self.queryset = list(chain(private_localisations, organisation_localisations))
         return super().get_queryset()
 
+    def get_object(self):
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+        print({self.lookup_field: self.kwargs[lookup_url_kwarg]})
+        print(self.filter_queryset(self.get_queryset()))
+
+        return super().get_object()
+
     @action(detail=True, methods=['get'], permission_classes=(IsAuthenticated,))
     def consumption(self, request, *args, **kwargs):
         start_date = datetime.date.fromisoformat(request.query_params.get('start_date'))
