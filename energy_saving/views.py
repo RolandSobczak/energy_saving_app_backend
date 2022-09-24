@@ -15,7 +15,7 @@ class OrganisationViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        if not self.request.user.is_staff():
+        if not self.request.user.is_staff:
             self.queryset = models.Organisations.objects.filter(profiles=self.request.user.profile)
         return super().get_queryset()
 
@@ -27,7 +27,7 @@ class LocalisationViewSet(viewsets.ModelViewSet):
     filter_backends = ()
 
     def get_queryset(self):
-        if not self.request.user.is_staff():
+        if not self.request.user.is_staff:
             private_localisations = self.queryset.filter(
                 profiles=self.request.user.profile
             )
@@ -60,7 +60,7 @@ class RoomViewSet(viewsets.ModelViewSet):
     filter_backends = ()
 
     def get_queryset(self):
-        if not self.request.user.is_staff():
+        if not self.request.user.is_staff:
             private_localisations = self.queryset.filter(
                 localisation__profile=self.request.user.profile
             )
@@ -103,6 +103,17 @@ class GroupViewSet(viewsets.ModelViewSet):
             'end_date': end_date,
             'id': obj.id,
         }, status=HTTP_200_OK)
+
+    def get_queryset(self):
+        if not self.request.user.is_staff:
+            private_localisations = self.queryset.filter(
+                devices__room__localisation__profile=self.request.user.profile
+            )
+            organisation_localisations = self.queryset.objects.filter(
+                devices__room__localisation__ogranisation__profiles=self.request.user.profile
+            )
+            self.queryset = private_localisations + organisation_localisations
+        return super().get_queryset()
 
 
 class DeviceTypeViewSet(viewsets.ModelViewSet):
