@@ -1,4 +1,5 @@
 import datetime
+from itertools import chain
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework import views
@@ -32,10 +33,11 @@ class LocalisationViewSet(viewsets.ModelViewSet):
             private_localisations = self.queryset.filter(
                 profile=self.request.user.profile
             )
+            organisations = models.Organisations.objects.filter(profiles=self.request.user.profile)
             organisation_localisations = self.queryset.filter(
-                ogranisation__profile=self.request.user.profile
+                organisation__in=list(organisations)
             )
-            self.queryset = private_localisations + organisation_localisations
+            self.queryset = list(chain(private_localisations, organisation_localisations))
         return super().get_queryset()
 
     @action(detail=True, methods=['get'], permission_classes=(IsAuthenticated,))
@@ -65,10 +67,11 @@ class RoomViewSet(viewsets.ModelViewSet):
             private_localisations = self.queryset.filter(
                 localisation__profile=self.request.user.profile
             )
+            organisations = models.Organisations.objects.filter(profiles=self.request.user.profile)
             organisation_localisations = self.queryset.filter(
-                localisation__ogranisation__profiles=self.request.user.profile
+                localisation__organisation__in=list(organisations)
             )
-            self.queryset = private_localisations + organisation_localisations
+            self.queryset = list(chain(private_localisations, organisation_localisations))
         return super().get_queryset()
 
     @action(detail=True, methods=['get'], permission_classes=(IsAuthenticated,))
@@ -90,7 +93,7 @@ class RoomViewSet(viewsets.ModelViewSet):
 
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = models.Group.objects.all()
-    serializers_class = serializers.RoomSerializer
+    serializer_class = serializers.GroupSerializer
     permission_classes = (IsAuthenticated,)
 
     @action(detail=True, methods=['get'], permission_classes=(IsAuthenticated,))
@@ -107,13 +110,18 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if not self.request.user.is_staff:
+            private_rooms = models.Device.objects.filter(localisation__localisation__profile=self.request.user.profile)
             private_localisations = self.queryset.filter(
-                devices__room__localisation__profile=self.request.user.profile
+                devices__in=list(private_rooms)
+            )
+            organisations = models.Organisations.objects.filter(profiles=self.request.user.profile)
+            organisation_devices = models.Device.objects.filter(
+                localisation__localisation__organisation__in=list(organisations)
             )
             organisation_localisations = self.queryset.filter(
-                devices__room__localisation__ogranisation__profiles=self.request.user.profile
+                devices__in=list(organisation_devices)
             )
-            self.queryset = private_localisations + organisation_localisations
+            self.queryset = list(chain(private_localisations, organisation_localisations))
         return super().get_queryset()
 
 
@@ -132,12 +140,15 @@ class DeviceViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if not self.request.user.is_staff:
             private_localisations = self.queryset.filter(
-                room__localisation__profile=self.request.user.profile
+                localisation__localisation__profile=self.request.user.profile
             )
-            organisation_localisations = self.queryset.filter(
-                room__localisation__ogranisation__profiles=self.request.user.profile
+            organisations = models.Organisations.objects.filter(profiles=self.request.user.profile)
+            organisation_rooms = models.Room.objects.filter(
+                localisation__organisation__in=list(organisations)
             )
-            self.queryset = private_localisations + organisation_localisations
+            organisation_devices=self.queryset.filter(localisation__in=tuple(organisation_rooms))
+
+            self.queryset = list(chain(private_localisations, organisation_devices))
         return super().get_queryset()
 
     @action(detail=True, methods=['get'], permission_classes=(IsAuthenticated,))

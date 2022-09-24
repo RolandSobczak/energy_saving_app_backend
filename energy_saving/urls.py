@@ -8,6 +8,7 @@ router.register('localisations', views.LocalisationViewSet, 'localisations')
 router.register('rooms', views.RoomViewSet, 'rooms')
 router.register('device-types', views.DeviceTypeViewSet, 'device-types')
 router.register('devices', views.DeviceViewSet, 'devices')
+router.register('groups', views.GroupViewSet, 'groups')
 # router.register('devices/<pk>/month/<date>', views.MonthViewSet, 'months')
 # router.register('days', views.DayViewSet, 'days')
 
@@ -21,5 +22,5 @@ app_name = 'posts'
 urlpatterns = [
     path('', include(router.urls)),
     path('', include(month_router.urls)),
-    path('specs/<str:url>/', views.SpecsFetchView.as_view()),
+    # path('specs/<str:url>/', views.SpecsFetchView.as_view()),
 ]
