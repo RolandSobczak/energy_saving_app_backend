@@ -40,8 +40,7 @@ class LocalisationViewSet(viewsets.ModelViewSet):
         return super().get_queryset()
 
     def get_object(self):
-        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
-        print(self.get_object())
+        print(super().get_object())
 
         return super().get_object()
 
