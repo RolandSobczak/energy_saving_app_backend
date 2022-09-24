@@ -64,7 +64,7 @@ class RoomViewSet(viewsets.ModelViewSet):
             private_localisations = self.queryset.filter(
                 localisation__profile=self.request.user.profile
             )
-            organisation_localisations = self.queryset.objects.filter(
+            organisation_localisations = self.queryset.filter(
                 localisation__ogranisation__profiles=self.request.user.profile
             )
             self.queryset = private_localisations + organisation_localisations
@@ -109,7 +109,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             private_localisations = self.queryset.filter(
                 devices__room__localisation__profile=self.request.user.profile
             )
-            organisation_localisations = self.queryset.objects.filter(
+            organisation_localisations = self.queryset.filter(
                 devices__room__localisation__ogranisation__profiles=self.request.user.profile
             )
             self.queryset = private_localisations + organisation_localisations
