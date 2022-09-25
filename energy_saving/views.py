@@ -190,7 +190,7 @@ class SpecsFetchView(views.APIView):
 
     def get(self, request, url: str):
         return Response({
-            "device_type": models.DeviceType.objects.get(name='fridge').name,
+            "device_type": models.DeviceType.objects.get(name='Lodówka').name,
             "consumption": 29,
             "energy_class": 'Klasa E',
             "device_name": 'Samsung RB34T652EBN',
