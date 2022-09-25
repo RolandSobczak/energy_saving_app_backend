@@ -11,13 +11,13 @@ class OrganisationsSerializer(serializers.ModelSerializer):
 class LocalisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Localisation
-        fields = ('pk', 'profile', 'organisation', 'name', 'description', 'image',)
+        fields = ('pk', 'profile', 'organisation', 'name', 'description', 'image', 'slug')
 
 
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Room
-        fields = ('pk', 'localisation', 'name', 'description', 'image',)
+        fields = ('pk', 'localisation', 'name', 'description', 'image', 'slug')
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -36,7 +36,7 @@ class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Device
         fields = ('pk', 'name', 'active', 'description', 'image', 'device_type',
-                  'consumption', 'avg_active_time', 'localisation', 'energy_class')
+                  'consumption', 'avg_active_time', 'localisation', 'energy_class', 'slug')
 
 
 class MonthSerializer(serializers.ModelSerializer):
