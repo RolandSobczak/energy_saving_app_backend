@@ -230,7 +230,7 @@ class Device(Timestamped, SlugMixin):
     avg_active_time = models.IntegerField()
     localisation = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='devices')
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='devices', null=True, blank=True)
-    energy_class = models.IntegerField()
+    energy_class = models.CharField(max_length=255)
 
     def get_active_time(self, start_date, end_date) -> tuple:
         days_counter = (end_date - start_date).days

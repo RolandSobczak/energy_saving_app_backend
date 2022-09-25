@@ -36,7 +36,7 @@ class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Device
         fields = ('pk', 'name', 'active', 'description', 'image', 'device_type',
-                  'consumption', 'avg_active_time', 'localisation',)
+                  'consumption', 'avg_active_time', 'localisation', 'energy_class')
 
 
 class MonthSerializer(serializers.ModelSerializer):
